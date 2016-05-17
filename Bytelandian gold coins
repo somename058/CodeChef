@@ -1,0 +1,40 @@
+/* In Byteland they have a very strange monetary system.
+
+Each Bytelandian gold coin has an integer number written on it. A coin n can be exchanged in a bank into three coins: n/2, n/3 and n/4. But these numbers are all rounded down (the banks have to make a profit).
+
+You can also sell Bytelandian coins for American dollars. The exchange rate is 1:1. But you can not buy Bytelandian coins.
+
+You have one gold coin. What is the maximum amount of American dollars you can get for it? */
+
+#include<iostream>
+#include<vector>
+#define MAX 500000
+unsigned long exchange(unsigned long);
+
+using namespace std;
+
+vector <int> save (MAX,0);
+int main(){
+	unsigned long n;
+	//cout<<sizeof(unsigned int)<<" "<<sizeof(unsigned long);
+	while((cin>>n)>0){
+		cout<<exchange(n)<<endl;
+	}
+ return 0;
+}
+
+unsigned long exchange(unsigned long num){
+	if(num<500000)
+		if(save[num]!=0)
+			return save[num];
+	if(num/2+num/3+num/4<=num)
+		return num;
+	unsigned long val = exchange(num/2)+exchange(num/3)+exchange(num/4);
+	//cout<<val<<" "<<num;
+	if(num<500000)
+		if(val>num)
+			save[num] = val;
+		else
+			save[num] = num;
+	return val;	
+}
